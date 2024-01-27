@@ -1,0 +1,68 @@
+[gd_scene load_steps=6 format=3 uid="uid://b6irfwux1kg4t"]
+
+[ext_resource type="PackedScene" uid="uid://diafabxbxlj37" path="res://scenes/Leader.tscn" id="2_r3oth"]
+[ext_resource type="Material" uid="uid://uyarp30xpwwd" path="res://materials/temp.tres" id="2_ryvou"]
+[ext_resource type="PackedScene" uid="uid://dxo4nrgdssges" path="res://scenes/Clown.tscn" id="3_6if3v"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_05je2"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_c8076"]
+
+[node name="Main" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 7, 6)
+
+[node name="Floor" type="StaticBody3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor"]
+material_override = ExtResource("2_ryvou")
+mesh = SubResource("PlaneMesh_05je2")
+
+[node name="Collision" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("WorldBoundaryShape3D_c8076")
+
+[node name="Leader" parent="." node_paths=PackedStringArray("next") instance=ExtResource("2_r3oth")]
+speed = 6.0
+next = NodePath("../Clown")
+follow_distance = 1.0
+
+[node name="Clown" parent="." node_paths=PackedStringArray("next") instance=ExtResource("3_6if3v")]
+next = NodePath("../Clown2")
+follow_distance = 1.0
+
+[node name="Clown2" parent="." node_paths=PackedStringArray("next") instance=ExtResource("3_6if3v")]
+next = NodePath("../Clown3")
+follow_distance = 1.0
+
+[node name="Clown3" parent="." node_paths=PackedStringArray("next") instance=ExtResource("3_6if3v")]
+next = NodePath("../Clown4")
+follow_distance = 1.0
+
+[node name="Clown4" parent="." node_paths=PackedStringArray("next") instance=ExtResource("3_6if3v")]
+next = NodePath("../Clown5")
+follow_distance = 1.0
+
+[node name="Clown5" parent="." node_paths=PackedStringArray("next") instance=ExtResource("3_6if3v")]
+next = NodePath("../Clown6")
+follow_distance = 1.0
+
+[node name="Clown6" parent="." node_paths=PackedStringArray("next") instance=ExtResource("3_6if3v")]
+next = NodePath("../Clown7")
+follow_distance = 1.0
+
+[node name="Clown7" parent="." node_paths=PackedStringArray("next") instance=ExtResource("3_6if3v")]
+next = NodePath("../Clown8")
+follow_distance = 1.0
+
+[node name="Clown8" parent="." node_paths=PackedStringArray("next") instance=ExtResource("3_6if3v")]
+next = NodePath("../Clown9")
+follow_distance = 1.0
+
+[node name="Clown9" parent="." instance=ExtResource("3_6if3v")]
+follow_distance = 1.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, -0.5, 0.5, 0, 0, 0)
+shadow_enabled = true

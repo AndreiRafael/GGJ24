@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://dwg6drqodrh6d"]
+
+[ext_resource type="Material" uid="uid://uyarp30xpwwd" path="res://materials/temp.tres" id="1_djbb0"]
+[ext_resource type="PackedScene" uid="uid://bm4cv8qhgtv2a" path="res://scenes/Car.tscn" id="1_gpan4"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_05je2"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_c8076"]
+
+[node name="Main" type="Node3D"]
+
+[node name="Car" parent="." instance=ExtResource("1_gpan4")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 7, 6)
+
+[node name="Floor" type="StaticBody3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor"]
+material_override = ExtResource("1_djbb0")
+mesh = SubResource("PlaneMesh_05je2")
+
+[node name="Collision" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("WorldBoundaryShape3D_c8076")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, -0.5, 0.5, 0, 0, 0)
+shadow_enabled = true

@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://dxo4nrgdssges"]
+
+[ext_resource type="Script" path="res://scripts/clown.gd" id="1_24g56"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2exqr"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_6y6j4"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_buivk"]
+
+[node name="Clown" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.70706, 0)
+collision_layer = 2
+script = ExtResource("1_24g56")
+waypoint_frequency = 80.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_2exqr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_6y6j4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(0.730631, 0, 0, 0, 0.250128, 0, 0, 0, 0.466019, 0, 0.474407, 0.384091)
+mesh = SubResource("BoxMesh_buivk")
