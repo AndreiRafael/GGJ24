@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://b6irfwux1kg4t"]
+[gd_scene load_steps=8 format=3 uid="uid://b6irfwux1kg4t"]
 
 [ext_resource type="PackedScene" uid="uid://diafabxbxlj37" path="res://scenes/Leader.tscn" id="2_r3oth"]
 [ext_resource type="Material" uid="uid://uyarp30xpwwd" path="res://materials/temp.tres" id="2_ryvou"]
 [ext_resource type="PackedScene" uid="uid://dxo4nrgdssges" path="res://scenes/Clown.tscn" id="3_6if3v"]
+[ext_resource type="Script" path="res://scripts/controller.gd" id="3_afs83"]
+[ext_resource type="PackedScene" uid="uid://bm4cv8qhgtv2a" path="res://scenes/Car.tscn" id="4_kkgti"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_05je2"]
 
@@ -11,7 +13,7 @@
 [node name="Main" type="Node3D"]
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 7, 6)
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 8, 7)
 
 [node name="Floor" type="StaticBody3D" parent="."]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
@@ -23,36 +25,13 @@ mesh = SubResource("PlaneMesh_05je2")
 [node name="Collision" type="CollisionShape3D" parent="Floor"]
 shape = SubResource("WorldBoundaryShape3D_c8076")
 
-[node name="Leader" parent="." node_paths=PackedStringArray("next") instance=ExtResource("2_r3oth")]
-speed = 6.0
-next = NodePath("../Clown")
-
-[node name="Clown" parent="." node_paths=PackedStringArray("next") instance=ExtResource("3_6if3v")]
-next = NodePath("../Clown2")
-
-[node name="Clown2" parent="." node_paths=PackedStringArray("next") instance=ExtResource("3_6if3v")]
-next = NodePath("../Clown3")
-
-[node name="Clown3" parent="." node_paths=PackedStringArray("next") instance=ExtResource("3_6if3v")]
-next = NodePath("../Clown4")
-
-[node name="Clown4" parent="." node_paths=PackedStringArray("next") instance=ExtResource("3_6if3v")]
-next = NodePath("../Clown5")
-
-[node name="Clown5" parent="." node_paths=PackedStringArray("next") instance=ExtResource("3_6if3v")]
-next = NodePath("../Clown6")
-
-[node name="Clown6" parent="." node_paths=PackedStringArray("next") instance=ExtResource("3_6if3v")]
-next = NodePath("../Clown7")
-
-[node name="Clown7" parent="." node_paths=PackedStringArray("next") instance=ExtResource("3_6if3v")]
-next = NodePath("../Clown8")
-
-[node name="Clown8" parent="." node_paths=PackedStringArray("next") instance=ExtResource("3_6if3v")]
-next = NodePath("../Clown9")
-
-[node name="Clown9" parent="." instance=ExtResource("3_6if3v")]
-
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, -0.5, 0.5, 0, 0, 0)
 shadow_enabled = true
+
+[node name="Controller" type="Node3D" parent="."]
+script = ExtResource("3_afs83")
+round_time = 5.0
+car_scene = ExtResource("4_kkgti")
+leader_scene = ExtResource("2_r3oth")
+clown_scene = ExtResource("3_6if3v")

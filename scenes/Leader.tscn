@@ -4,8 +4,11 @@
 [ext_resource type="Script" path="res://scripts/leader.gd" id="2_tnc6w"]
 
 [node name="Leader" instance=ExtResource("1_myn3b")]
-transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 1.70706, 0)
 script = ExtResource("2_tnc6w")
 speed = 2.0
 turn_speed = 4.0
-waypoint_frequency = 80.0
+
+[node name="Hitbox" parent="." index="2"]
+collision_mask = 2
+
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
