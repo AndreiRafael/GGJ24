@@ -5,8 +5,8 @@
 
 [node name="Leader" instance=ExtResource("1_myn3b")]
 script = ExtResource("2_tnc6w")
-speed = 2.0
-turn_speed = 4.0
+speed = 5.0
+turn_speed = 3.0
 
 [node name="Hitbox" parent="." index="2"]
 collision_mask = 2

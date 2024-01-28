@@ -3,7 +3,20 @@ class_name Leader
 
 @export var speed : float = 2.0
 @export var turn_speed : float = 2.0
+
+var turn : float = 0.0
 var dead : bool = false
+
+func _process_turn(input : float, delta : float):
+	if input != 0.0:
+		turn += input * delta * 6.0
+		turn = clampf(turn, -1.0, 1.0)
+	else:
+		const mult : float = 2.0
+		if turn > 0.0:
+			turn = max(turn - delta * mult, 0.0)
+		else:
+			turn = min(turn + delta * mult, 0.0)
 
 func _process(_delta):
 	if Input.is_action_just_pressed("test"):
@@ -17,7 +30,8 @@ func _physics_process(delta):
 	var fwd : Vector3 = global_basis.z
 	fwd *= speed
 	
-	rotate_y(-delta * turn_speed * Input.get_axis("turn_left", "turn_right"))
+	_process_turn(Input.get_axis("turn_left", "turn_right"), delta)
+	rotate_y(-delta * turn_speed * turn)
 	
 	vel.x = fwd.x
 	vel.z = fwd.z

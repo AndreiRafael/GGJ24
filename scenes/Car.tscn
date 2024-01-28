@@ -10,6 +10,7 @@
 
 [node name="Car" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1118, 0)
+collision_layer = 2
 script = ExtResource("1_eb6nh")
 
 [node name="Collision" type="CollisionShape3D" parent="."]
@@ -23,5 +24,3 @@ mesh = SubResource("BoxMesh_dka3o")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="TempMesh"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0.625758)
 mesh = SubResource("BoxMesh_qv2yx")
-
-[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]

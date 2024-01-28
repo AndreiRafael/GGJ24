@@ -4,14 +4,14 @@ class_name Car
 @export var speed_limit : float = 10.0
 @export var turn_speed : float = 3.0
 @export var acceleration : float = 2.0
+@export var max_gas : float = 10.0
 
 var turn : float = 0.0
+var gas : float = 5.0
 var stopped : bool = false
 
-var controller : Controller = null
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _physics_process(delta : float) -> void:
 	var vel : Vector3 = velocity
 	var fwd : Vector3 = global_basis.z
 	
@@ -44,8 +44,3 @@ func _process(delta):
 	vel.y -= delta * 9.8
 	velocity = vel
 	move_and_slide()
-
-func _on_tree_entered():
-	controller = get_parent() as Controller
-	if controller and controller.state == Controller.State.CLOWN:
-		stopped = true
