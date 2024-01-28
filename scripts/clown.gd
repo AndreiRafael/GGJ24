@@ -5,10 +5,12 @@ var next : Clown = null
 var waypoints : Array[Vector3] = []
 var waypoint_timer : float = 0.0
 @export var waypoint_frequency : float = 10.0
+@export var animation_player : AnimationPlayer = null
 
 func _ready() -> void:
 	waypoints.resize(30)
 	waypoints.fill(position)
+	animation_player.play("Jump")
 
 func _physics_process(delta):
 	velocity.y -= delta * 9.8

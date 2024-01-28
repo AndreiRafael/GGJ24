@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://x8etx1llt6hw"]
+[gd_scene load_steps=5 format=3 uid="uid://x8etx1llt6hw"]
 
 [ext_resource type="Script" path="res://scripts/coin.gd" id="1_8vr4i"]
+[ext_resource type="Material" uid="uid://botal2tpyko0k" path="res://materials/coin.tres" id="2_fpoxd"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_60d0y"]
 
@@ -11,6 +12,7 @@ script = ExtResource("1_8vr4i")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, -2.18557e-09, -0.5, 0, 0.05, -2.18557e-08, 0, 0.5, 0)
+material_override = ExtResource("2_fpoxd")
 mesh = SubResource("CylinderMesh_60d0y")
 
 [node name="Area3D" type="Area3D" parent="."]

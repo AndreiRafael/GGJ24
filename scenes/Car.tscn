@@ -1,26 +1,40 @@
-[gd_scene load_steps=5 format=3 uid="uid://bm4cv8qhgtv2a"]
+[gd_scene load_steps=7 format=3 uid="uid://bm4cv8qhgtv2a"]
 
 [ext_resource type="Script" path="res://scripts/car.gd" id="1_eb6nh"]
+[ext_resource type="PackedScene" uid="uid://dgmwfjkxe5lw3" path="res://models/car.glb" id="2_an3lx"]
+[ext_resource type="Material" uid="uid://uhuj3mvou4qq" path="res://materials/car.tres" id="3_u118g"]
+[ext_resource type="Material" uid="uid://de2v75joaqam3" path="res://materials/tyre.tres" id="4_i34ow"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_7khki"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_dka3o"]
+[sub_resource type="CylinderMesh" id="CylinderMesh_islvf"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_qv2yx"]
-
-[node name="Car" type="CharacterBody3D"]
+[node name="Car" type="CharacterBody3D" node_paths=PackedStringArray("animation_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1118, 0)
 collision_layer = 2
 script = ExtResource("1_eb6nh")
+speed_limit = 4.0
+animation_player = NodePath("car/AnimationPlayer")
 
 [node name="Collision" type="CollisionShape3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 shape = SubResource("SphereShape3D_7khki")
 
-[node name="TempMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
-mesh = SubResource("BoxMesh_dka3o")
+[node name="car" parent="." instance=ExtResource("2_an3lx")]
+transform = Transform3D(-0.25, 0, -2.18557e-08, 0, 0.25, 0, 2.18557e-08, 0, -0.25, 0, -0.15, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TempMesh"]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0.625758)
-mesh = SubResource("BoxMesh_qv2yx")
+[node name="Cube" parent="car" index="0"]
+transform = Transform3D(1.09077, 0, 0, 0, 0.918452, 0, 0, 0, 1.09077, 0, 0, 0)
+material_override = ExtResource("3_u118g")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="car"]
+transform = Transform3D(-4.37114e-08, -1.4, -8.74228e-08, 1, -6.11959e-08, 8.74228e-08, -8.74228e-08, -1.22392e-07, 1, 8.86912e-08, 0.173321, -1.01451)
+material_override = ExtResource("4_i34ow")
+mesh = SubResource("CylinderMesh_islvf")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="car"]
+transform = Transform3D(-4.37114e-08, -1.4, -8.74228e-08, 1, -6.11959e-08, 8.74228e-08, -8.74228e-08, -1.22392e-07, 1, -9.73046e-08, 0.173321, 1.11303)
+material_override = ExtResource("4_i34ow")
+mesh = SubResource("CylinderMesh_islvf")
+
+[editable path="car"]

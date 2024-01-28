@@ -1,3 +1,9 @@
-[gd_resource type="CanvasItemMaterial" format=3 uid="uid://w5odu6wyse1x"]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://blrafcj1310vx"]
+
+[ext_resource type="Shader" path="res://shaders/bar.gdshader" id="1_2ek8e"]
 
 [resource]
+shader = ExtResource("1_2ek8e")
+shader_parameter/bg_color = Color(0, 0, 0, 0.588235)
+shader_parameter/fg_color = Color(1, 1, 1, 1)
+shader_parameter/amount = 0.5

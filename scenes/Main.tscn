@@ -1,22 +1,32 @@
-[gd_scene load_steps=11 format=3 uid="uid://b6irfwux1kg4t"]
+[gd_scene load_steps=16 format=3 uid="uid://b6irfwux1kg4t"]
 
+[ext_resource type="PackedScene" uid="uid://crgj0wxhyycq4" path="res://scenes/UI.tscn" id="1_3rrm4"]
+[ext_resource type="Script" path="res://scripts/camera.gd" id="2_g6br3"]
 [ext_resource type="PackedScene" uid="uid://diafabxbxlj37" path="res://scenes/Leader.tscn" id="2_r3oth"]
 [ext_resource type="Material" uid="uid://uyarp30xpwwd" path="res://materials/temp.tres" id="2_ryvou"]
 [ext_resource type="PackedScene" uid="uid://dxo4nrgdssges" path="res://scenes/Clown.tscn" id="3_6if3v"]
 [ext_resource type="Script" path="res://scripts/controller.gd" id="3_afs83"]
 [ext_resource type="PackedScene" uid="uid://bm4cv8qhgtv2a" path="res://scenes/Car.tscn" id="4_kkgti"]
+[ext_resource type="Material" uid="uid://d1gx0uk335wjf" path="res://materials/rock.tres" id="4_wwjny"]
 [ext_resource type="Script" path="res://scripts/spawner.gd" id="6_1l76t"]
 [ext_resource type="PackedScene" uid="uid://dg0w6wmxq5p3a" path="res://scenes/Cone.tscn" id="7_k6xv7"]
 [ext_resource type="PackedScene" uid="uid://x8etx1llt6hw" path="res://scenes/Coin.tscn" id="7_yosu5"]
+[ext_resource type="PackedScene" uid="uid://drlu3tmce01n6" path="res://scenes/wall.tscn" id="10_iyno5"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_05je2"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_c8076"]
 
+[sub_resource type="BoxMesh" id="BoxMesh_iqdpe"]
+
 [node name="Main" type="Node3D"]
+
+[node name="UI" parent="." instance=ExtResource("1_3rrm4")]
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 8.5, 3.7)
+script = ExtResource("2_g6br3")
+offset = Vector3(0, 7, 3)
 
 [node name="Floor" type="StaticBody3D" parent="."]
 transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 0)
@@ -28,19 +38,48 @@ mesh = SubResource("PlaneMesh_05je2")
 [node name="Collision" type="CollisionShape3D" parent="Floor"]
 shape = SubResource("WorldBoundaryShape3D_c8076")
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(-0.578362, 0, -0.30803, 0, 0.02, 0, 0.550074, 0, -0.32387, 0, 0, 0)
+material_override = ExtResource("4_wwjny")
+mesh = SubResource("BoxMesh_iqdpe")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(-0.397847, 0, 0.127872, 0, 0.02, 0, -0.103505, 0, -0.491507, -0.556636, 0, -0.639333)
+material_override = ExtResource("4_wwjny")
+mesh = SubResource("BoxMesh_iqdpe")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(0.561835, 0, -0.0522332, 0, 0.02, 0, -0.0546727, 0, -0.536766, 0.543875, 0, 0.354484)
+material_override = ExtResource("4_wwjny")
+mesh = SubResource("BoxMesh_iqdpe")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(0.285941, 0, -0.195633, 0, 0.02, 0, 0.491611, 0, 0.113788, 0.538655, 0, -0.611724)
+material_override = ExtResource("4_wwjny")
+mesh = SubResource("BoxMesh_iqdpe")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(0.198403, 0.000115668, 0.140766, -0.000745671, 0.0199574, -0.00104564, -0.221649, 3.63958e-05, 0.126007, -0.620327, 0, 0.461473)
+material_override = ExtResource("4_wwjny")
+mesh = SubResource("BoxMesh_iqdpe")
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, -0.5, 0.5, 0, 0, 0)
 shadow_enabled = true
 
-[node name="Controller" type="Node3D" parent="." node_paths=PackedStringArray("clown_spawner", "car_spawner", "cone_spawner", "coin_spawner")]
+[node name="Controller" type="Node3D" parent="." node_paths=PackedStringArray("camera", "clown_spawner", "car_spawner", "cone_spawner", "coin_spawner", "ui_gas", "ui_score", "ui_game_over")]
 script = ExtResource("3_afs83")
 round_time = 25.0
+camera = NodePath("../Camera3D")
 leader_scene = ExtResource("2_r3oth")
 clown_scene = ExtResource("3_6if3v")
 clown_spawner = NodePath("../ClownSpawner")
 car_spawner = NodePath("../CarSpawner")
 cone_spawner = NodePath("../ConeSpawner")
 coin_spawner = NodePath("../CoinSpawner")
+ui_gas = NodePath("../UI/Gas")
+ui_score = NodePath("../UI/Score")
+ui_game_over = NodePath("../UI/GameOver")
 
 [node name="ClownSpawner" type="Node3D" parent="."]
 script = ExtResource("6_1l76t")
@@ -50,7 +89,7 @@ size = 12.0
 [node name="CarSpawner" type="Node3D" parent="."]
 script = ExtResource("6_1l76t")
 scene = ExtResource("4_kkgti")
-size = 12.0
+size = 8.0
 
 [node name="ConeSpawner" type="Node3D" parent="."]
 script = ExtResource("6_1l76t")
@@ -61,3 +100,18 @@ size = 12.0
 script = ExtResource("6_1l76t")
 scene = ExtResource("7_yosu5")
 size = 12.0
+
+[node name="walls" type="Node3D" parent="."]
+
+[node name="Wall" parent="walls" instance=ExtResource("10_iyno5")]
+
+[node name="Wall2" parent="walls" instance=ExtResource("10_iyno5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 15, -7.5, 0, -0.5)
+
+[node name="Wall4" parent="walls" instance=ExtResource("10_iyno5")]
+transform = Transform3D(-4.37114e-08, 0, -15, 0, 1, 0, 1, 0, -6.55671e-07, 0.5, 0, -7.5)
+
+[node name="Wall3" parent="walls" instance=ExtResource("10_iyno5")]
+transform = Transform3D(-4.37114e-08, 0, 15, 0, 1, 0, -1, 0, -6.55671e-07, -0.5, 0, 7.5)
+
+[editable path="UI"]

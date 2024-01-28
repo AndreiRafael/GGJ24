@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://ck2nf3f68a5vf"]
+
+[ext_resource type="Shader" path="res://shaders/blink.gdshader" id="1_mo7pb"]
+[ext_resource type="Texture2D" uid="uid://b6sxv0gomgevw" path="res://sprites/ui_space.png" id="2_ce8nf"]
+
+[resource]
+shader = ExtResource("1_mo7pb")
+shader_parameter/speed = 1.0
+shader_parameter/tex = ExtResource("2_ce8nf")

@@ -7,6 +7,7 @@ enum State {
 }
 
 @export var round_time : float = 20.0
+@export var camera : Camera = null
 
 @export var leader_scene : PackedScene = null
 @export var clown_scene : PackedScene = null
@@ -16,23 +17,34 @@ enum State {
 @export var cone_spawner : Spawner = null
 @export var coin_spawner : Spawner = null
 
+@export var ui_gas : ColorRect = null
+@export var ui_score : Label = null
+@export var ui_game_over : Label = null
+
 var state : State = State.CLOWN
+var game_over : bool = false
 var begun : bool = false #pra dar delay antes de começar o jogo de verdade
 var timer : float = 0.0
+var score : int = 0
 
 var car : Car = null
 var leader : Leader = null
 var cones : Array[Node3D] = []
-var coins : Array[Coin] = []
+var coin : Coin = null
 
-var expected_count : int = 1
+var expected_count : int = 8
 
-const coin_time : float = 5.0
-const clowns_per_round : int = 5
+const clowns_per_round : int = 6
+
+func _set_score(value : int) -> void:
+	score = value
+	if ui_score:
+		ui_score.text = str(score)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	set_state(State.CLOWN)
+	_set_score(0)
+	set_state(State.CAR)
 
 func switch_state() -> void:
 	if state == State.CAR:
@@ -45,6 +57,22 @@ func get_spawn_postion() -> Vector3:
 		return car.position
 	return position + Vector3(0.0, 1.0, 0.0)
 
+func spawn_coin():
+	var avoid : Array[Vector3] = []
+	if car:
+		avoid = [car.position]
+	coin = coin_spawner.spawn_one(avoid) as Coin
+	coin.controller = self
+	
+func spawn_car() -> Car:
+	var avoid : Array[Vector3] = []
+	if leader:
+		avoid = leader.as_array_positions()
+	car = car_spawner.spawn_one(avoid)
+	car.ui = ui_gas
+	car.rotate_y(randf() * PI * 2.0)
+	return car
+
 func set_state(new_state : State) -> void:
 	#limpeza
 	match state:
@@ -52,9 +80,11 @@ func set_state(new_state : State) -> void:
 			for cone in cones:
 				cone.queue_free()
 			cones = []
-			for coin in coins:
+			if coin:
 				coin.queue_free()
-			coins = []
+			coin = null
+			if ui_gas:
+				ui_gas.visible = false
 		State.CLOWN:
 			if leader:
 				leader.queue_free()
@@ -66,14 +96,25 @@ func set_state(new_state : State) -> void:
 	#inicialização
 	match state:
 		State.CAR:
-			timer = coin_time
-			car.stopped = false
+			if !car:
+				car = spawn_car()
+			car.go()
+			camera.target = car
+			camera.multiplier = 0.9
+			camera.center = 0.5
 			cones = cone_spawner.spawn([car.position], 10)
+			spawn_coin()
+			if ui_gas:
+				ui_gas.visible = true
 		State.CLOWN:
 			timer = 0.0
 			leader = leader_scene.instantiate() as Leader
 			leader.position = get_spawn_postion()
+			leader.rotate_y(randf() * PI * 2.0)
 			add_child(leader)
+			camera.target = leader
+			camera.multiplier = 0.6
+			camera.center = 0.2
 
 func map_position(clown : Clown) -> Vector3:
 	return clown.position
@@ -97,25 +138,22 @@ func _process_clown(_delta : float) -> void:
 			begun = true
 	elif !car:
 		if leader.count() >= expected_count:
-			car = car_spawner.spawn_one(leader.as_array_positions())
-			car.rotate_y(randf() * PI * 2.0)
-			car.stopped = true
+			car = spawn_car()
+			car.stop()
 	else:
 		var dist : float = leader.position.distance_squared_to(car.position)
 		if dist < 1.0:
+			car.animation_player.stop()
+			car.animation_player.play("Enter")
 			if !leader.cut_front():
 				set_state(State.CAR)
+	if !game_over and leader and leader.dead:
+		game_over = true
+		ui_game_over.visible = true
+	if game_over and Input.is_action_just_pressed("start"):
+		get_tree().reload_current_scene()
 
 func _process_car(_delta : float) -> void:
-	if timer > coin_time:
-		timer -= coin_time
-		var coin_avoid : Array[Vector3] = []
-		for cone in cones:
-			coin_avoid.append(cone.position)
-		coin_avoid.append(car.position)
-		var coin : Coin = coin_spawner.spawn_one(coin_avoid) as Coin
-		coin.controller = self
-		coins.append(coin)
 	if car.stopped:#bateu o corcel
 		set_state(State.CLOWN)
 
@@ -127,5 +165,8 @@ func _process(delta: float) -> void:
 		State.CLOWN:
 			_process_clown(delta)
 
-func collect_coin(coin : Coin) -> void:
-	coins.remove_at(coins.find(coin))
+func collect_coin() -> void:
+	if car:
+		car.gas = min(car.gas + car.max_gas / 2.0, car.max_gas)
+	spawn_coin()
+	_set_score(score + 1)

@@ -18,10 +18,6 @@ func _process_turn(input : float, delta : float):
 		else:
 			turn = min(turn + delta * mult, 0.0)
 
-func _process(_delta):
-	if Input.is_action_just_pressed("test"):
-		cut_front()
-
 func _physics_process(delta):
 	if dead:
 		return

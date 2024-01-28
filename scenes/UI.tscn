@@ -1,4 +1,16 @@
-[gd_scene format=3 uid="uid://crgj0wxhyycq4"]
+[gd_scene load_steps=6 format=3 uid="uid://crgj0wxhyycq4"]
+
+[ext_resource type="Material" uid="uid://blrafcj1310vx" path="res://materials/ui_bar.tres" id="1_0germ"]
+[ext_resource type="Texture2D" uid="uid://b6sxv0gomgevw" path="res://sprites/ui_space.png" id="2_nbstc"]
+[ext_resource type="Material" uid="uid://ck2nf3f68a5vf" path="res://materials/ui_blink.tres" id="2_w6tq2"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_adcpr"]
+font_size = 32
+shadow_color = Color(0, 0, 0, 0.588235)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="LabelSettings" id="LabelSettings_canvh"]
+font_size = 56
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -8,7 +20,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="Gas" type="ColorRect" parent="."]
+visible = false
+material = ExtResource("1_0germ")
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -21,3 +35,53 @@ offset_right = 200.0
 offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 0
+
+[node name="Score" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -75.0
+offset_right = 75.0
+offset_bottom = 60.0
+grow_horizontal = 2
+text = "0"
+label_settings = SubResource("LabelSettings_adcpr")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameOver" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "TROMBOU!"
+label_settings = SubResource("LabelSettings_canvh")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="GameOver"]
+texture_filter = 1
+material = ExtResource("2_w6tq2")
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -20.185
+offset_right = 80.0
+offset_bottom = 19.815
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("2_nbstc")

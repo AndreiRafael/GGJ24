@@ -1,32 +1,28 @@
-[gd_scene load_steps=6 format=3 uid="uid://dxo4nrgdssges"]
+[gd_scene load_steps=5 format=3 uid="uid://dxo4nrgdssges"]
 
 [ext_resource type="Script" path="res://scripts/clown.gd" id="1_24g56"]
+[ext_resource type="PackedScene" uid="uid://j1ap7cntse2i" path="res://models/clown.glb" id="2_wsgmq"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2exqr"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_6y6j4"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_buivk"]
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mdagt"]
 
-[node name="Clown" type="CharacterBody3D"]
+[node name="Clown" type="CharacterBody3D" node_paths=PackedStringArray("animation_player")]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 1.70706, 0)
 collision_layer = 2
 script = ExtResource("1_24g56")
 waypoint_frequency = 100.0
+animation_player = NodePath("clown/AnimationPlayer")
 
 [node name="Collision" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_2exqr")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_6y6j4")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
-transform = Transform3D(0.730631, 0, 0, 0, 0.250128, 0, 0, 0, 0.466019, 0, 0.474407, 0.384091)
-mesh = SubResource("BoxMesh_buivk")
+[node name="clown" parent="." instance=ExtResource("2_wsgmq")]
+transform = Transform3D(-2.18557e-08, 0, -0.5, 0, 0.5, 0, 0.5, 0, -2.18557e-08, 0, -1, 0)
 
 [node name="Hitbox" type="Area3D" parent="."]
 
 [node name="Collision" type="CollisionShape3D" parent="Hitbox"]
 shape = SubResource("CapsuleShape3D_mdagt")
+
+[editable path="clown"]

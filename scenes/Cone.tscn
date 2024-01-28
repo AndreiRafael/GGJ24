@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dg0w6wmxq5p3a"]
+[gd_scene load_steps=5 format=3 uid="uid://dg0w6wmxq5p3a"]
 
 [ext_resource type="Script" path="res://scripts/cone.gd" id="1_4b1k4"]
+[ext_resource type="Material" uid="uid://du3cguuaicoon" path="res://materials/cone.tres" id="2_qlgub"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_qujwa"]
 
@@ -11,6 +12,7 @@ script = ExtResource("1_4b1k4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0.1, 0)
+material_override = ExtResource("2_qlgub")
 mesh = SubResource("PrismMesh_qujwa")
 
 [node name="Area3D" type="Area3D" parent="."]

@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://drlu3tmce01n6"]
+
+[ext_resource type="Script" path="res://scripts/cone.gd" id="1_xd5ex"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ikihh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v55hj"]
+
+[node name="Wall" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 15, 7.5, 0, 0.5)
+script = ExtResource("1_xd5ex")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_ikihh")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_v55hj")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

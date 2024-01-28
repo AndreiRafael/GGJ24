@@ -5,7 +5,7 @@ var controller : Controller = null
 
 func collect() -> void:
 	if controller:
-		controller.collect_coin(self)
+		controller.collect_coin()
 	queue_free()
 
 

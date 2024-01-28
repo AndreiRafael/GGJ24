@@ -5,10 +5,36 @@ class_name Car
 @export var turn_speed : float = 3.0
 @export var acceleration : float = 2.0
 @export var max_gas : float = 10.0
+@export var animation_player : AnimationPlayer = null
 
 var turn : float = 0.0
 var gas : float = 5.0
 var stopped : bool = false
+var ui : ColorRect = null
+
+func go():
+	animation_player.play("Jump")
+	stopped = false
+
+func stop():
+	stopped = true
+	animation_player.stop()
+
+func _ready():
+	gas = max_gas
+
+func _process(delta : float) -> void:
+	if stopped:
+		return
+	
+	gas -= delta
+	if gas < 0.0:
+		stop()
+		velocity.x = 0.0
+		velocity.z = 0.0
+	if ui:
+		var mat : ShaderMaterial = ui.material as ShaderMaterial
+		mat.set_shader_parameter("amount", gas / max_gas)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta : float) -> void:

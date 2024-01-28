@@ -29,6 +29,7 @@ func spawn_one(to_avoid : Array[Vector3]) -> Node3D:
 		var new_node = scene.instantiate() as Node3D
 		if new_node:
 			new_node.position = pos
+			new_node.rotate_y(randf() * PI * 2.0)
 			add_child(new_node)
 			return new_node
 	return null
@@ -36,5 +37,7 @@ func spawn_one(to_avoid : Array[Vector3]) -> Node3D:
 func spawn(to_avoid : Array[Vector3], amount : int) -> Array[Node3D]:
 	var out : Array[Node3D] = []
 	for i in range(amount):
-		out.append(spawn_one(to_avoid))
+		var new_node : Node3D = spawn_one(to_avoid)
+		to_avoid.append(new_node.position)
+		out.append(new_node)
 	return out
